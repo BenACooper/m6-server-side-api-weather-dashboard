@@ -4,13 +4,19 @@
 var searchButtonEl = document.querySelector("#search-button");
 
 function displayTodayWeather() {
-    var rawWeatherData = localStorage.getItem("weatherData");
-    console.log(rawWeatherData);
+  var rawData = localStorage.getItem("rawWeatherData");
+  console.log(rawData);
 
-    if (rawWeatherData) {
-        var parsedWeatherData = JSON.parse(rawWeatherData);
-        console.log(parsedWeatherData);
-    } 
+  if (rawData) {
+    var weatherData = JSON.parse(rawData);
+    console.log(weatherData);
+
+    var lat = weatherData[0].lat;
+    var lon = weatherData[0].lon;
+
+    console.log(lat);
+    console.log(lon);
+  }
 }
 
 function searchApi(cityName) {
@@ -18,7 +24,7 @@ function searchApi(cityName) {
   var queryURL =
     "http://api.openweathermap.org/geo/1.0/direct?q=" +
     cityName +
-    "&appid=" +
+    ",us&appid=" +
     APIKey;
   console.log(queryURL);
 
@@ -30,10 +36,9 @@ function searchApi(cityName) {
       return response.json();
     })
     .then(function (data) {
-      localStorage.setItem("weatherData", JSON.stringify(data));
+      localStorage.setItem("rawWeatherData", JSON.stringify(data));
       displayTodayWeather();
     });
-    
 }
 
 function getUserInput() {
