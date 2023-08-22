@@ -3,6 +3,16 @@
 
 var searchButtonEl = document.querySelector("#search-button");
 
+function displayTodayWeather() {
+    var rawWeatherData = localStorage.getItem("weatherData");
+    console.log(rawWeatherData);
+
+    if (rawWeatherData) {
+        var parsedWeatherData = JSON.parse(rawWeatherData);
+        console.log(parsedWeatherData);
+    } 
+}
+
 function searchApi(cityName) {
   var APIKey = "578a74d026d0cdbb7cd49c97bdfad734";
   var queryURL =
@@ -12,12 +22,18 @@ function searchApi(cityName) {
     APIKey;
   console.log(queryURL);
 
-  fetch(queryURL).then(function (response) {
-    if (!response.ok) {
-      throw response.json();
-    }
-    return response.json();
-  });
+  fetch(queryURL)
+    .then(function (response) {
+      if (!response.ok) {
+        throw response.json();
+      }
+      return response.json();
+    })
+    .then(function (data) {
+      localStorage.setItem("weatherData", JSON.stringify(data));
+      displayTodayWeather();
+    });
+    
 }
 
 function getUserInput() {
@@ -32,6 +48,3 @@ function getUserInput() {
 }
 
 searchButtonEl.addEventListener("click", getUserInput);
-
-//EventListener invokes the handleFormSubmit button passing event.
-//handleSearchFormSubmit invokes the searchApi function passing inputValue.
