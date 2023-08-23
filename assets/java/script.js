@@ -8,20 +8,26 @@ var searchButtonEl = document.querySelector("#search-button");
 var todayContainerEl = document.querySelector("#todayContainer");
 var forecastContainerEl = document.querySelector("#forecastContainer");
 
-//Delcare a function to receive the arrats and iterate through them to display the corresponding set of data for each iteration. Parameters semantics are placeholders, but must match the contnet of the function. When the functoin is invoked and arguments are passed those arguments replace the parameters in all instnaces, not just witin the paranthesis. 
-function displayForecastWeather(forecastCelsius, forecastFahrenheit, forecastHumidity, forecastWind) {
+//Delcare a function to receive the arrats and iterate through them to display the corresponding set of data for each iteration. Parameters semantics are placeholders, but must match the contnet of the function. When the functoin is invoked and arguments are passed those arguments replace the parameters in all instnaces, not just witin the paranthesis.
+function displayForecastWeather(
+  forecastCelsius,
+  forecastFahrenheit,
+  forecastHumidity,
+  forecastWind
+) {
   // Reset the container each call so only one set of data can display.
   while (forecastContainerEl.firstChild) {
     forecastContainerEl.removeChild(forecastContainerEl.firstChild);
   }
 
   for (var i = 0; i < 5; i++) {
-    var forecastCard = document.createElement('div')
-    forecastCard.setAttribute("id", "card")
+    var forecastCard = document.createElement("div");
+    forecastCard.setAttribute("id", "card");
     forecastContainerEl.appendChild(forecastCard);
 
     var forecastTempEl = document.createElement("p");
-    forecastTempEl.textContent = "Temp: " + forecastCelsius[i] + " / " + forecastFahrenheit[i];
+    forecastTempEl.textContent =
+      "Temp: " + forecastCelsius[i] + " / " + forecastFahrenheit[i];
     forecastCard.appendChild(forecastTempEl);
 
     var forecastWindEl = document.createElement("p");
@@ -63,10 +69,14 @@ function getForecastData() {
     }
 
     // Move this line outside the for loop to display all data together.
-    displayForecastWeather(forecastCelsiusArr, forecastFahrenheitArr, forecastHumidityArr, forecastWindArr);
+    displayForecastWeather(
+      forecastCelsiusArr,
+      forecastFahrenheitArr,
+      forecastHumidityArr,
+      forecastWindArr
+    );
   }
 }
-
 
 function searchForecastAPI(lat, lon) {
   var queryForecastURL =
@@ -96,6 +106,10 @@ function displayTodayWeather(tempCelsius, tempFahrenheit, humidity, windSpeed) {
   while (todayContainerEl.firstChild) {
     todayContainerEl.removeChild(todayContainerEl.firstChild);
   }
+  cityName = document.querySelector("#search-input").value;
+  todayCityName = document.createElement("h2")
+  todayCityName.textContent = cityName
+  todayContainerEl.appendChild(todayCityName)
 
   var todayTempEl = document.createElement("p");
   todayTempEl.textContent = "Temp: " + tempCelsius + " / " + tempFahrenheit;
@@ -202,9 +216,9 @@ function searchByCityName(cityName) {
 }
 
 //Declare a function that reminds the user to enter a city name if there isn't one, and if there is it will then store the users input in a variable and pass it to the searchByCityName function.
+
 function getUserInput() {
   var cityName = document.querySelector("#search-input").value;
-
   if (!cityName) {
     console.log("forgot city name");
     return;

@@ -9,22 +9,33 @@
 </head>
 
 <body>
+
     <header>
         <i>Weather Dashboard</i>
     </header>
-    <sectionid id="searchContainer">
-        <h1>Search for a City:</h1>
-        <input type="text" placeholder="City Name" id="search-input">
-        <button id="search-button">Search</button>
-        <div id="cityList"></div>
+    <main>
+        <section id="searchContainer">
+            <h1>Search for a City:</h1>
+            <input type="text" placeholder="City Name" id="search-input">
+            <button id="search-button">Search</button>
+            <div id="cityList"></div>
         </section>
-        <section id="todayContainer">
-        </section>
-        <Section id="forecastContainer">
+
+        <section id="allWeatherContainer">
+
+            <div id="todayContainer">
+            </div>
+
             <h3>5-day Forecast:</h3>
-            <div id="dayCards"></div>
-        </Section>
-        <script src="./assets/java/script.js"></script>
+
+
+            <div id="forecastContainer">
+                <div id="dayCards"></div>
+            </div>
+        </section>
+    </main>
+
+    <script src="./assets/java/script.js"></script>
 </body>
 
 </html>
