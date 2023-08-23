@@ -8,9 +8,8 @@ var searchButtonEl = document.querySelector("#search-button");
 var todayContainerEl = document.querySelector("#todayContainer");
 var forecastContainerEl = document.querySelector("#forecastContainer");
 
-var today = dayjs()
-var todayFormatted = today.format('(DD/MM/YYYY)')
-
+var today = dayjs();
+var todayFormatted = today.format("(DD/MM/YYYY)");
 
 //Delcare a function to receive the arrats and iterate through them to display the corresponding set of data for each iteration. Parameters semantics are placeholders, but must match the contnet of the function. When the functoin is invoked and arguments are passed those arguments replace the parameters in all instnaces, not just witin the paranthesis.
 function displayForecastWeather(
@@ -29,7 +28,7 @@ function displayForecastWeather(
     forecastCard.setAttribute("id", "card");
     forecastContainerEl.appendChild(forecastCard);
 
-    var forecastDate = dayjs().add([i], 'day').format('DD/MM/YYYY');
+    var forecastDate = dayjs().add([i], "day").format("DD/MM/YYYY");
     var forecastDateEl = document.createElement("h4");
     forecastDateEl.textContent = forecastDate;
     forecastCard.appendChild(forecastDateEl);
@@ -46,8 +45,6 @@ function displayForecastWeather(
     var forecastHumidityEl = document.createElement("p");
     forecastHumidityEl.textContent = "Humidity: " + forecastHumidity[i] + "%";
     forecastCard.appendChild(forecastHumidityEl);
-
-
   }
 }
 
@@ -112,15 +109,22 @@ function searchForecastAPI(lat, lon) {
     });
 }
 
-function displayTodayWeather(tempCelsius, tempFahrenheit, humidity, windSpeed) {
+//Can't figure out how to make the icon display.
+function displayTodayWeather(
+  tempCelsius,
+  tempFahrenheit,
+  humidity,
+  windSpeed,
+  todayIcon
+) {
   //Reset the container each call so only one set of data can display.
   while (todayContainerEl.firstChild) {
     todayContainerEl.removeChild(todayContainerEl.firstChild);
   }
   cityName = document.querySelector("#search-input").value;
-  todayCityName = document.createElement("h2")
-  todayCityName.textContent = cityName + " " + todayFormatted
-  todayContainerEl.appendChild(todayCityName)
+  todayCityName = document.createElement("h2");
+  todayCityName.textContent = cityName + " " + todayFormatted;
+  todayContainerEl.appendChild(todayCityName);
 
   var todayTempEl = document.createElement("p");
   todayTempEl.textContent = "Temp: " + tempCelsius + " / " + tempFahrenheit;
@@ -151,13 +155,21 @@ function getTodayData() {
     tempCelsius = tempCelsius.toFixed(2) + "°C";
     var humidity = weatherData.main.humidity;
     var windSpeed = weatherData.wind.speed;
+    var todayIcon = weatherData.weather[0].icon;
 
     console.log(tempFahrenheit);
     console.log(tempCelsius);
     console.log(humidity);
     console.log(windSpeed);
+    console.log(todayIcon);
 
-    displayTodayWeather(tempCelsius, tempFahrenheit, humidity, windSpeed);
+    displayTodayWeather(
+      tempCelsius,
+      tempFahrenheit,
+      humidity,
+      windSpeed,
+      todayIcon
+    );
   }
 }
 
@@ -226,17 +238,63 @@ function searchByCityName(cityName) {
     });
 }
 
-//Declare a function that reminds the user to enter a city name if there isn't one, and if there is it will then store the users input in a variable and pass it to the searchByCityName function.
-
+//Declare a function that reminds the user to enter a city name if there isn't one, and if there is it will then store the users input in a variable for passing.
 function getUserInput() {
   var cityName = document.querySelector("#search-input").value;
   if (!cityName) {
     console.log("forgot city name");
     return;
   }
+  addCityButton(cityName);
   searchByCityName(cityName);
   console.log(cityName);
 }
 
 //Event listener on search button invokes the getUserInput function.
 searchButtonEl.addEventListener("click", getUserInput);
+
+//Declare function to add buttons to the div below the input.
+function addCityButton(cityName) {
+  // Check if a button with the same text already exists
+  var existingButtons = document.querySelectorAll("#cityList button");
+  for (var i = 0; i < existingButtons.length; i++) {
+    if (existingButtons[i].textContent === cityName) {
+      return; // City button already exists, so don't add a duplicate
+    }
+  }
+
+  var addedButton = document.createElement("button");
+  addedButton.textContent = cityName;
+
+  addedButton.addEventListener("click", function () {
+    searchByCityName(cityName);
+  });
+
+  var cityList = document.getElementById("cityList");
+  cityList.appendChild(addedButton);
+  storeCityNamesInLocalStorage()
+}
+
+//Declare function to store city names of existing buttons in localstorage.
+function storeCityNamesInLocalStorage() {
+  var cityButtons = document.querySelectorAll("#cityList button");
+  var cityNames = [];
+
+  for (var i = 0; i < cityButtons.length; i++) {
+    cityNames.push(cityButtons[i].textContent);
+  }
+
+  localStorage.setItem("cityNames", JSON.stringify(cityNames));
+}
+
+//Declare function to retrieve the stored cityNames and make buttons.
+function loadCityButtonsFromLocalStorage() {
+  var cityNames = localStorage.getItem("cityNames");
+  if (cityNames) {
+    cityNames = JSON.parse(cityNames);
+    for (var i = 0; i < cityNames.length; i++) {
+      addCityButton(cityNames[i]);
+    }
+  }
+}
+loadCityButtonsFromLocalStorage() //Call when page loads.

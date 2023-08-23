@@ -45,6 +45,9 @@ header {
     background-color: #6e95e9;
 }
 
+#cityList{
+    border-top: 3px solid grey;
+}
 #allWeatherContainer {
   border: solid 1px black;
   flex: 0 0 60%;
