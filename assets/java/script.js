@@ -8,6 +8,10 @@ var searchButtonEl = document.querySelector("#search-button");
 var todayContainerEl = document.querySelector("#todayContainer");
 var forecastContainerEl = document.querySelector("#forecastContainer");
 
+var today = dayjs()
+var todayFormatted = today.format('(DD/MM/YYYY)')
+
+
 //Delcare a function to receive the arrats and iterate through them to display the corresponding set of data for each iteration. Parameters semantics are placeholders, but must match the contnet of the function. When the functoin is invoked and arguments are passed those arguments replace the parameters in all instnaces, not just witin the paranthesis.
 function displayForecastWeather(
   forecastCelsius,
@@ -25,6 +29,11 @@ function displayForecastWeather(
     forecastCard.setAttribute("id", "card");
     forecastContainerEl.appendChild(forecastCard);
 
+    var forecastDate = dayjs().add([i], 'day').format('DD/MM/YYYY');
+    var forecastDateEl = document.createElement("h4");
+    forecastDateEl.textContent = forecastDate;
+    forecastCard.appendChild(forecastDateEl);
+
     var forecastTempEl = document.createElement("p");
     forecastTempEl.textContent =
       "Temp: " + forecastCelsius[i] + " / " + forecastFahrenheit[i];
@@ -37,6 +46,8 @@ function displayForecastWeather(
     var forecastHumidityEl = document.createElement("p");
     forecastHumidityEl.textContent = "Humidity: " + forecastHumidity[i] + "%";
     forecastCard.appendChild(forecastHumidityEl);
+
+
   }
 }
 
@@ -108,7 +119,7 @@ function displayTodayWeather(tempCelsius, tempFahrenheit, humidity, windSpeed) {
   }
   cityName = document.querySelector("#search-input").value;
   todayCityName = document.createElement("h2")
-  todayCityName.textContent = cityName
+  todayCityName.textContent = cityName + " " + todayFormatted
   todayContainerEl.appendChild(todayCityName)
 
   var todayTempEl = document.createElement("p");

@@ -54,6 +54,9 @@ header {
 #todayContainer {
   border: solid 1px navy;
   min-height: 200px;
+  font-size: large;
+  font-weight: 200;
+  color: black;
 }
 
 #forecastContainer {
@@ -68,4 +71,11 @@ header {
     border: solid 1px red;
     height: 200px;
     margin: 10px;
+    font-size: large;
+    font-weight: 200;
+    color: white;
+  }
+
+h4 {
+    font-size: x-large;
   }
