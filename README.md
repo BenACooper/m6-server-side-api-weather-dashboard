@@ -1,10 +1,10 @@
 # m6-server-side-api-weather-dashboard
-A took to look up 5-day forecast for cities using OpenWeather API.
+A took to look up 5-day forecast for cities using OpenWeather API. After searching a city the current weather will appear at the top right of teh page. 5-day forecast will appear at the bottom right.
 
-Create basic HTML structure.
-Four main div: header, search, present day, 5-day forecast.
-- Header contains some kind of text element for page title.
-- Search containes h1, input, button and div to dynamicaly generate buttons for past searches.
-- Present day containes a single dynamically generated card displaying the searched city name, current day, temperature, wind, humidity and an icon to represent the weather.
-- 5 day forecast must dynamicaly generate cards for the searched city displaying same information for the next five days excepting the city name.
+A search history of cities will populate in the form of buttons so repeat searches can be done with a single click.
 
+![Alt text](image.png)
+
+Repo: https://github.com/BenACooper/m6-server-side-api-weather-dashboard.gitLinks to an external site.
+
+Deployed: https://benacooper.github.io/m6-server-side-api-weather-dashboard/
